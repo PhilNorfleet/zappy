@@ -490,12 +490,19 @@ module.exports = function(webpackEnv) {
             // In production, they would get copied to the `build` folder.
             // This loader doesn't use a "test" so it will catch all modules
             // that fall through the other loaders.
+            // CSV loader made customized to parse the default load profile
             {
               test: /\.csv$/,
               loader: require.resolve('csv-loader'),
               options: {
                 dynamicTyping: true,
                 header: true,
+                transformHeader: (header) => {
+                  return header.split(" ")[0]
+                },
+                transform: (value, header) => {
+                  return header === "Date/Time" ? value.split("  ") : +value;
+                },
                 skipEmptyLines: true
               }
             },
