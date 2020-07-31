@@ -1,13 +1,12 @@
 import React from 'react';
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+
+import Main from "./components/Main/Main";
+
 function App() {
   return (
     <Container>
-      <Row className="row">
-        <Col>
-          Zappy Calculator
-        </Col>
-      </Row>
+      <Main/>      
     </Container>
 
   );
