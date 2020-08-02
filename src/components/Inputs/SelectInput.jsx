@@ -1,16 +1,14 @@
 import React from "react";
-import { InputGroup, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 
-const SelectInput = ({ options }) => {
+const SelectInput = ({ name, options, value, onChange }) => {
     
     return (
-        <InputGroup>
-            <FormControl as="select" aria-label="Small">
-                {options.map(({ label }) => {
-                    return (<option>{label}</option>)
-                })}
-            </FormControl>
-        </InputGroup>
+        <FormControl as="select" aria-label="Small" name={name} value={value} onChange={onChange}>
+            {options.map(({ value, label }, index) => {
+                return (<option key={index} value={value} label={label} />)
+            })}
+        </FormControl>
     )
 }
 

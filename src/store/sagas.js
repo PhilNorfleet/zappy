@@ -3,21 +3,30 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import { INIT_RATE_OPTIONS, setRateOptions, CALCULATE_COST, setCost } from "./actions";
 import defaultLoadProfile from "assets/defaultLoadProfile.csv";
 
-const calculate = () => {};
+const calculateB1 = (loadProfile, rate) => {
+    let B1 = 0;
+    const [ rateType, rateAmount ] = rate;
+    if (rateType === "flat") {
+        B1 = loadProfile.reduce((acc, current, index, array) => {
+            let sum = 0;
+            for (let el in current) {
+                if (el.indexOf("Electricity") !== -1) {
+                    sum += current[el]
+                }
+            }
+            return acc + (sum * rateAmount)
+        }, 0)
+    }
+    console.log(B1)
+    return B1;
 
-function* calculateCost() {
-    // Get the user inputs for rate, mileage, schedule, etc.
+};
 
-    // Construct the requisite operations
-    const operations = [];
-    
-    // Get user load profile (or use default)
+function* calculateCost({payload: { rate, mileage, schedule }}) {
+    console.log(rate)
     console.log(defaultLoadProfile);
+    const B1 = yield call(calculateB1, defaultLoadProfile, rate)
 
-    // peform the cost calculation
-    const cost = yield call(calculate, ...operations);
-
-    yield put(setCost(cost))
 }
 
 // Simulate fetching formatted rate options from some server, for fun...

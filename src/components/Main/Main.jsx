@@ -10,7 +10,7 @@ const Main = () => {
     useEffect(() => {
         // Initialize on first render
         dispatch(initRateOptions());
-
+        console.log('init')
     }, [dispatch])
     return (
         <Row>

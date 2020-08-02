@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Field, Form, Formik, } from 'formik';
 
 import TextInput from "./TextInput";
 import SelectInput from "./SelectInput";
@@ -11,23 +12,35 @@ import { getRateOptions } from "../../store/selectors";
 const InputSection = () => {
 	const dispatch = useDispatch();
 	const rateOptions = useSelector(getRateOptions)
-	
-	const handleSubmit = (event) => {
-		console.log(event)
-		event.preventDefault();
-		dispatch(calculateCost());
-	}
-
+	if (!rateOptions.length) return <div>Loading...</div>
 	return (
-		<Form onSubmit={handleSubmit}>
-			<TextInput/>
-			<SelectInput options={rateOptions} />
-			<Button type="submit">
-				Calculate Rate!
-			</Button>
-		</Form>
+		<Formik
+			initialValues={ { rate: rateOptions[0]?.value } }
+			onSubmit={(values) => console.log(values) || dispatch(calculateCost(values))}
+		>
+			{ ({ handleChange, values }) => (
+				<Form>
+					<TextInput/>
+					<Field name="rate">
+						{({
+							field,
+							form: { touched, errors },
+							meta,
+						}) => (
+							<SelectInput name={field.name} options={ rateOptions } value={values.rate} onChange={ (e) => console.log(e.target.value) || handleChange(e) }/>
+						)
+
+						}
+					</Field>
+					<Button type="submit">
+						Calculate Rate!
+					</Button>
+				</Form>
+			)}
+		</Formik>
+
 
 	)
 }
 
-export default InputSection
+export default InputSection;
