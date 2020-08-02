@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 
-import { CALCULATE_COST, setCost } from "./actions";
+import { INIT_RATE_OPTIONS, setRateOptions, CALCULATE_COST, setCost } from "./actions";
 import defaultLoadProfile from "assets/defaultLoadProfile.csv";
 
 const calculate = () => {};
@@ -20,10 +20,40 @@ function* calculateCost() {
     yield put(setCost(cost))
 }
 
-function* watchCalculateCost() {
-    yield takeEvery(CALCULATE_COST, calculateCost)
+// Simulate fetching formatted rate options from some server, for fun...
+const fetchRateOptions = () => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+          resolve({
+            status: 200,
+            body: { 
+                options: [
+                    {
+                        label: "A: Flat - $0.15/kWh",
+                        value: ["flat", 0.15]
+                    },
+                    {
+                        label: "B: TOU - $0.20/kWh between noon and 6pm, and $0.08/kWh otherwise",
+                        value: ["tou", [0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08,]]
+                    },
+                ]
+             },
+          });
+        }, 1000) // simulate server work/load
+    });
+}
+
+function* initRateOptions() {
+    
+    const { body: { options: rate_options  } } = yield call(fetchRateOptions);
+    yield put(setRateOptions(rate_options));
+}
+
+function* watch() {
+    yield takeEvery(CALCULATE_COST, calculateCost);
+    yield takeEvery(INIT_RATE_OPTIONS, initRateOptions);
 }
 
 export default function* rootSaga() {
-    yield all([watchCalculateCost()]);
+    yield all([watch()]);
 }

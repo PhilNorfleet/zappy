@@ -1,10 +1,17 @@
 import React from "react";
+import { InputGroup, FormControl } from "react-bootstrap";
 
-import { FormControl } from "react-bootstrap";
-const TextInput = () => {
+const SelectInput = ({ options }) => {
+    
     return (
-        <FormControl aria-label="Small" />
+        <InputGroup>
+            <FormControl as="select" aria-label="Small">
+                {options.map(({ label }) => {
+                    return (<option>{label}</option>)
+                })}
+            </FormControl>
+        </InputGroup>
     )
 }
 
-export default TextInput;
+export default SelectInput;

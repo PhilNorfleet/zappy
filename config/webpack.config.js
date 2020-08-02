@@ -497,7 +497,7 @@ module.exports = function(webpackEnv) {
                   return header.split(" ")[0]
                 },
                 transform: (value, header) => {
-                  return header === "Date/Time" ? value.split("  ") : +value;
+                  return header === "Date/Time" ? value.trim().split("  ") : +value;
                 },
                 skipEmptyLines: true
               }

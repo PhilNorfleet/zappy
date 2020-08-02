@@ -1,0 +1,1 @@
+export const getRateOptions = (state) => state.rateOptions;
