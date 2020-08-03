@@ -7,16 +7,18 @@ import TextInput from "./TextInput";
 import SelectInput from "./SelectInput";
 
 import { calculateCost } from "../../store/actions";
-import { getRateOptions } from "../../store/selectors";
+import { getFormattedRateOptions } from "../../store/selectors";
 
 const InputSection = () => {
+
 	const dispatch = useDispatch();
-	const rateOptions = useSelector(getRateOptions)
-	if (!rateOptions.length) return <div>Loading...</div>
+	const rateOptions = useSelector(getFormattedRateOptions)
+
+	if (!rateOptions.length) return <div>Loading the latest rates...</div>
 	return (
 		<Formik
-			initialValues={ { rate: rateOptions[0]?.value } }
-			onSubmit={(values) => console.log(values) || dispatch(calculateCost(values))}
+			initialValues={ { rateType: rateOptions[0]?.value } }
+			onSubmit={(values) => dispatch(calculateCost(values))}
 		>
 			{ ({ handleChange, values }) => (
 				<Form>
@@ -24,10 +26,8 @@ const InputSection = () => {
 					<Field name="rate">
 						{({
 							field,
-							form: { touched, errors },
-							meta,
 						}) => (
-							<SelectInput name={field.name} options={ rateOptions } value={values.rate} onChange={ (e) => console.log(e.target.value) || handleChange(e) }/>
+							<SelectInput name={field.name} options={ rateOptions } value={values.rateType} onChange={ (e) => handleChange(e) }/>
 						)
 
 						}
