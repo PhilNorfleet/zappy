@@ -1,5 +1,6 @@
-const getRateOptions = (state) => state.rateOptions;
+export const getRateOptions = (state) => state.rateOptions;
 export const getScheduleOptions = (state) => state.scheduleOptions;
+export const getCosts = (state) => state.costs;
 
 export const getFormattedRateOptions = (state) => getRateOptions(state).map(({ label, type }) => {
     return { label: label, value: type };

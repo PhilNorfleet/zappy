@@ -25,7 +25,7 @@ const InputSection = () => {
 			initialValues={ { rateType: rateOptions[0]?.value, mileage: 10000, schedule: scheduleOptions[0].value } }
 			onSubmit={(values) => dispatch(calculateCost(values))}
 		>
-			{ ({ handleChange, values }) => console.log(values) || (
+			{ ({ handleChange, values }) => (
 				<Form>
 					<Field name="rateType">
 						{({
