@@ -1,4 +1,4 @@
-import { SET_RATE_OPTIONS, SET_COSTS } from "./actions";
+import { SET_RATE_OPTIONS, SET_COSTS, SET_LOWEST_COST_TYPE } from "./actions";
 
 const initialState = {
     rateOptions: [],
@@ -20,7 +20,8 @@ const initialState = {
             value: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
         }
     ],
-    costs: {},
+    costs: [],
+    lowestCostType: ""
 };
 
 const appReducer = (state = initialState, {type, payload}) => {
@@ -34,6 +35,11 @@ const appReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 costs: payload
+            }
+        case SET_LOWEST_COST_TYPE:
+            return {
+                ...state,
+                lowestCostType: payload
             }
         default:
             return state;

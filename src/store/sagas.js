@@ -1,9 +1,9 @@
-import { all, call, put, takeEvery, select, fork } from "redux-saga/effects";
+import { all, call, put, takeEvery, select } from "redux-saga/effects";
 
 import defaultLoadProfile from "assets/defaultLoadProfile.csv";
 
 import { getRateOptions, getRateProfileForType, getSchedule,  } from "store/selectors";
-import { INIT_RATE_OPTIONS, setRateOptions, CALCULATE_COST, setCosts } from "store/actions";
+import { INIT_RATE_OPTIONS, setRateOptions, CALCULATE_COST, setCosts, setLowestCostType } from "store/actions";
 
 import calculateCost from "utils/calculateCost";
 
@@ -22,12 +22,14 @@ function* calculateYearlyCosts({ payload: { rateType, mileage, schedule } }) {
     const costs = yield all(rateOptions.map( rateOption => {
         return call(calculateYearlyCost, rateOption, mileage, scheduleArray)
     }))
-    console.log(costs);
     
-    yield put(setCosts(costs))
+    const lowestB2 = Math.min.apply(Math, costs.map(cost => cost.B2))
+    const idealType = costs.find(cost => cost.B2 === lowestB2)?.type;
+    yield put(setCosts(costs));
+    yield put(setLowestCostType(idealType));
 }
 
-// Simulate fetching formatted rate options from some server, for fun...
+// Simulate fetching rate options from some server, for fun...
 const fetchRateOptions = () => {
     return new Promise(resolve => {
         setTimeout(() => {

@@ -38,7 +38,7 @@ const InputSection = () => {
 						{({
 							field,
 						}) => (
-							<SliderInput name={field.name}  min={1000} max={100000} step={1000} value={values.mileage} onChange={ handleChange } />
+							<SliderInput name={field.name}  min={1000} max={100000} step={1000} value={values.mileage} onChange={ handleChange } displayValue={(value) => `${value} MPY`}/>
 						)}
 					</Field>
 					<Field name="schedule">

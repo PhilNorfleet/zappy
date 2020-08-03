@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import InputSection from "../Inputs/InputSection";
 import CostCompare from "../ResultDisplay/CostCompare";
@@ -13,7 +13,9 @@ const Main = () => {
         dispatch(initRateOptions());
     }, [dispatch])
     return (
-        <Row>
+        
+    <Container style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <Row style={{ margin: "auto" }}>
             <Col>
                 <InputSection />
             </Col>
@@ -21,6 +23,8 @@ const Main = () => {
                 <CostCompare />
             </Col>
         </Row>
+    </Container>
+        
     )
 }
 

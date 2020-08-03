@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit'
+import { createAction } from "@reduxjs/toolkit";
 
 export const INIT_RATE_OPTIONS = "INIT_RATE_OPTIONS";
 export const initRateOptions = () => createAction(INIT_RATE_OPTIONS)();
@@ -11,3 +11,6 @@ export const calculateCost = (values) => createAction(CALCULATE_COST)(values);
 
 export const SET_COSTS = "SET_COSTS";
 export const setCosts = (costs) => createAction(SET_COSTS)(costs);
+
+export const SET_LOWEST_COST_TYPE = "SET_LOWEST_COST_TYPE";
+export const setLowestCostType = (type) => createAction(SET_LOWEST_COST_TYPE)(type);
